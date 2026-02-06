@@ -7,14 +7,14 @@ from datetime import datetime, timezone, timedelta
 app = Flask(__name__)
 CORS(app)
 
-URL = "https://www.fanmeofficial.com/products/fanmeet-kncwi926020001-sion"
+URL = "https://www.kmonstar.com.tw/products/%E6%87%89%E5%8B%9F-260221-lngshot-debut-ep-shot-callers-%E5%9C%98%E9%AB%94%E6%8B%8D%E7%AB%8B%E5%BE%97%E5%90%88%E7%85%A7%E6%B4%BB%E5%8B%95-in-taipei"
 
 last_qty = None
 records = []  # 儲存差值紀錄
 
 
 def fetch_qty():
-    api_url = "https://api.fanmeofficial.com/api/products/kncwi926020001"
+    api_url = "https://www.kmonstar.com.tw/products/%E6%87%89%E5%8B%9F-260221-lngshot-debut-ep-shot-callers-%E5%9C%98%E9%AB%94%E6%8B%8D%E7%AB%8B%E5%BE%97%E5%90%88%E7%85%A7%E6%B4%BB%E5%8B%95-in-taipei"
     headers = {
         "User-Agent": "Mozilla/5.0",
         "Accept": "application/json"
@@ -24,14 +24,13 @@ def fetch_qty():
     res.raise_for_status()
     data = res.json()
 
-    return int(data["quantity"])
+    return int(data["total_sold"])
 
 def monitor():
     global last_qty
     while True:
         try:
             current = fetch_qty()
-            print("目前 quantity =", current)
             if last_qty is None:
                 last_qty = current
             else:
@@ -72,5 +71,6 @@ def api_data():
 if __name__ == "__main__":
     Thread(target=monitor, daemon=True).start()
     app.run(host="0.0.0.0", port=5000)
+
 
 
