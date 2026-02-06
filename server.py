@@ -14,12 +14,17 @@ records = []  # 儲存差值紀錄
 
 
 def fetch_qty():
-    res = requests.get(URL, timeout=10)
-    res.raise_for_status()
-    text = res.text
-    qty = int(text.split('"quantity":')[1].split(",")[0])
-    return qty
+    api_url = "https://api.fanmeofficial.com/api/products/kncwi926020001"
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json"
+    }
 
+    res = requests.get(api_url, headers=headers, timeout=10)
+    res.raise_for_status()
+    data = res.json()
+
+    return int(data["quantity"])
 
 def monitor():
     global last_qty
@@ -66,3 +71,4 @@ def api_data():
 if __name__ == "__main__":
     Thread(target=monitor, daemon=True).start()
     app.run(host="0.0.0.0", port=5000)
+
