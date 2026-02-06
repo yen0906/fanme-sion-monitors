@@ -31,6 +31,7 @@ def monitor():
     while True:
         try:
             current = fetch_qty()
+            print("目前 quantity =", current)
             if last_qty is None:
                 last_qty = current
             else:
@@ -71,4 +72,5 @@ def api_data():
 if __name__ == "__main__":
     Thread(target=monitor, daemon=True).start()
     app.run(host="0.0.0.0", port=5000)
+
 
